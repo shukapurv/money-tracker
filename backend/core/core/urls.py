@@ -36,4 +36,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/auth/', include('authentication.urls')),
     path('v1/connections/', include('rest_friendship.urls')),
+    path('v1/category/', include('category.urls')),
 ]

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_friendship',
     'friendship',
     'authentication',
+    'category',
 ]
 
 AUTH_USER_MODEL = "authentication.User"
