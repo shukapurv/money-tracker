@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'friendship',
     'authentication',
     'category',
+    'transaction',
 ]
 
 AUTH_USER_MODEL = "authentication.User"
