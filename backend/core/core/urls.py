@@ -1,4 +1,4 @@
-"""core URL Configuration
+"""test1 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -14,8 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Money Tracker",
+        default_version='v1',
+        description="A Money-tracker App",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+# ends here
 
 urlpatterns = [
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0),
+         name='schema-swagger-ui'),
     path('admin/', admin.site.urls),
+    path('v1/auth/', include('authentication.urls')),
+    path('v1/connections/', include('rest_friendship.urls')),
 ]
