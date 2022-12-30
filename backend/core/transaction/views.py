@@ -51,51 +51,47 @@ class TransactionListView(APIView):
             )
 
 
-# class TransactionDetailView(APIView):
-#     permission_classes = (IsAuthenticated,)
+class TransactionDetailView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-#     def get_object(self, pk):
-#         try:
-#             return Transaction.objects.get(pk=pk)
-#         except Transaction.DoesNotExist:
-#             raise Http404
+    def get_object(self, pk):
+        try:
+            return Transaction.objects.get(pk=pk)
+        except Transaction.DoesNotExist:
+            raise Http404
 
-#     def get(self, request, pk):
-#         transaction = self.get_object(pk)
-#         if request.user == transaction.user:
-#             serializer = TransactionSerializer(transaction)
-#             return Response(serializer.data)
-#         else:
-#             return Response(
-#                 data={"message": "Forbidden, Not Authorized"},
-#                 status=status.HTTP_401_UNAUTHORIZED,
-#             )
+    def get(self, request, pk):
+        transaction = self.get_object(pk)
 
-#     def put(self, request, pk):
-#         transaction = self.get_object(pk)
-#         data = request.data
-#         if request.user == transaction.user:
-#             transaction.name = data["name"]
-#             transaction.amount = data["amount"]
-#             transaction.description = data["description"]
-#             transaction.category_id = data["category"]
-#             serializer = TransactionSerializer(transaction, data=request.data)
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return Response(serializer.data)
-#         else:
-#             return Response(
-#                 data={"message": "Forbidden, Not Authorized"},
-#                 status=status.HTTP_401_UNAUTHORIZED,
-#             )
+        serializer = TransactionSerializer(transaction)
+        return Response(serializer.data)
 
-#     def delete(self, request, pk):
-#         transaction = self.get_object(pk)
-#         if request.user == transaction.user:
-#             transaction.delete()
-#             return Response(status=status.HTTP_204_NO_CONTENT)
-#         else:
-#             return Response(
-#                 data={"message": "Forbidden, Not Authorized"},
-#                 status=status.HTTP_401_UNAUTHORIZED,
-#             )
+    def put(self, request, pk):
+        transaction = self.get_object(pk)
+        data = request.data
+        if request.user == transaction.created_by:
+            category = Category.objects.get(id=data["category"])
+            transaction.name = data["name"]
+            transaction.amount = data["amount"]
+            transaction.description = data["description"]
+            transaction.category = category
+            serializer = TransactionSerializer(transaction, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+        else:
+            return Response(
+                data={"message": "Forbidden, Not Authorized"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+    def delete(self, request, pk):
+        transaction = self.get_object(pk)
+        if request.user == transaction.created_by:
+            transaction.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(
+                data={"message": "Forbidden, Not Authorized"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
