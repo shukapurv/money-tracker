@@ -14,6 +14,8 @@ class Transaction(models.Model):
         Category, on_delete=models.SET_NULL, null=True, blank=True
     )
     amount = models.DecimalField(default=0.0, max_digits=7, decimal_places=2)
+    created_by = models.ForeignKey(
+        User, related_name="created_by", on_delete=models.PROTECT, null=True)
     description = models.TextField(null=True, blank=True)
     date = models.DateField(auto_now=True)
 

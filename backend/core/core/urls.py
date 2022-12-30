@@ -37,4 +37,5 @@ urlpatterns = [
     path('v1/auth/', include('authentication.urls')),
     path('v1/connections/', include('rest_friendship.urls')),
     path('v1/category/', include('category.urls')),
+    path('v1/transaction/', include('transaction.urls')),
 ]

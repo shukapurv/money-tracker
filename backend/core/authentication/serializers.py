@@ -76,6 +76,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(DynamicModelSerializer):
+
     class Meta:
         model = User
         exclude = ('password',)
@@ -89,4 +90,24 @@ class UserSerializer(DynamicModelSerializer):
             "first_name",
             "last_name",
             "email",
+        )
+
+
+
+class TransactionUserSerializer(DynamicModelSerializer):
+    paid = serializers.BooleanField(default=False)
+
+    class Meta:
+        model = User
+        exclude = ('password',)
+        depth = 2
+
+    @staticmethod
+    def get_transaction_user():
+        return (
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "paid",
         )

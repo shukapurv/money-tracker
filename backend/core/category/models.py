@@ -14,8 +14,7 @@ class Category(models.Model):
     date = models.DateField(auto_now=True)
 
     def __str__(self) -> str:
-        ind = self.name + ':' + self.user
-        return ind
+        return self.name
 
 
 @receiver(post_save, sender=User)
