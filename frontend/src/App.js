@@ -102,12 +102,13 @@ const App = () => {
       <div className="container mt-3">
         <Routes>
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/transactions" element={<Transaction />} />
           <Route exact path="/add" element={<Form />} />
           <Route exact path="/users" element={<Users />} />
-          <Route  path="/update/:id" element={<Update />}/>
+          <Route path="/update/:id" element={<Update />} />
 
         </Routes>
       </div>
