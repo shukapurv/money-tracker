@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import (
     LoginSerializer, RegisterSerializer, UserSerializer)
 from authentication.models import User
+from django.db.models import Q
 
 
 def create_auth_token(user):
@@ -81,5 +82,6 @@ class AllUsersView(generics.GenericAPIView):
     serializer_class = UserSerializer
 
     def get(self, request):
-        serializer = UserSerializer(User.objects.all(), many=True)
+        serializer = UserSerializer(
+            User.objects.filter(~Q(id=request.user.id)), many=True)
         return Response(serializer.data)

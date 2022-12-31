@@ -1,11 +1,13 @@
 from django.urls import path
 
-from . import views
+from .views import *
 
 app_name = "transaction"
 
 urlpatterns = [
-    path("", views.TransactionListView.as_view(), name="transaction_list"),
-    # path("expense/<int:pk>/", views.ExpenseDetailView.as_view(),
-    #      name="expense_detail"),
+    path("", TransactionListView.as_view(), name="transaction_list"),
+    path("<int:pk>/", TransactionDetailView.as_view(),
+         name="expense_detail"),
+    path("relation/", AllTransactionsUsersRelation.as_view(),
+         name="transaction-user-relation")
 ]
