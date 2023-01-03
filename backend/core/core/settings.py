@@ -138,7 +138,7 @@ REST_FRIENDSHIP = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'USER_SERIALIZER': 'rest_friendship.serializers.FriendSerializer',
-},
+}
 
 
 # Static files (CSS, JavaScript, Images)
